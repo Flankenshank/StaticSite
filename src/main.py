@@ -1,6 +1,8 @@
 import shutil
 import os
 
+from generator import generate_page
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(script_dir, ".."))
 
@@ -20,9 +22,12 @@ def copy_static(src, dest):
 
 
 def main():
-    shutil.rmtree(public_dir)
+    if os.path.exists(public_dir):
+        shutil.rmtree(public_dir)
     os.mkdir(public_dir)
     copy_static(static_dir, public_dir)
+
+    generate_page("content/index.md", "template.html", "public/index.html")
 
 if __name__ == "__main__":
     main()

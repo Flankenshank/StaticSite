@@ -100,8 +100,11 @@ def text_to_children(block):
         Nodes_list.append(text_node_to_html_node(object))
     return Nodes_list
 
-
-
-
-
+def extract_title(markdown):
+    lines = markdown.split('\n')
+    for line in lines:
+        if line.startswith('# '):
+            h1_header = line[2:]
+            return h1_header.strip()
+    raise Exception("No h1 header found")
 

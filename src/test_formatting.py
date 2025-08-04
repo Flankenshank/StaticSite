@@ -1,6 +1,6 @@
 import unittest
 
-from formatting import block_to_block_type,BlockType,markdown_to_blocks,markdown_to_html_node
+from formatting import block_to_block_type,BlockType,markdown_to_blocks,markdown_to_html_node,extract_title
 
 class TestBlockType(unittest.TestCase):
     def test_heading(self):
@@ -66,6 +66,23 @@ class TestBlockType(unittest.TestCase):
             html,
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
         )
+
+    def test_h1_header(self):
+        md = "# This is an h1 header\n## This is not an h1 header\nThis is a paragraph"
+        self.assertEqual(extract_title(md),"This is an h1 header")
+
+    def test_no_h1_header(self):
+        md = "## This is not an h1 header\nThis is a paragraph"
+        with self.assertRaises(Exception):
+            extract_title(md)
+
+    def test_h1_header_line_2(self):
+        md = "## This is not an h1 header\n# The h1 header is not on the first line\nThis is a paragraph"
+        self.assertEqual(extract_title(md),"The h1 header is not on the first line")
+
+    def test_h1_header_spaces(self):
+        md = "#      This is an h1 header with more spaces\n## This is not an h1 header\nThis is a paragraph"
+        self.assertEqual(extract_title(md),"This is an h1 header with more spaces")
 
 if __name__ == "__main__":
     unittest.main()
