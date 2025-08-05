@@ -33,17 +33,13 @@ def main():
     os.mkdir(public_dir)
     copy_static(static_dir, public_dir)
 
-    generate_pages_recursive("content", "template.html", "docs")
-
-def main():
-    # Get basepath from command line arguments
     if len(sys.argv) > 1:
         basepath = sys.argv[1]
     else:
         basepath = "/"
     
     # Now pass basepath to the function
-    generate_pages_recursive("content", "template.html", "docs", basepath)
+    generate_pages_recursive("content", "template.html", public_dir, basepath)
 
 if __name__ == "__main__":
     main()
