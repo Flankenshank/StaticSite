@@ -1,7 +1,7 @@
 import shutil
 import os
 
-from generator import generate_page
+from generator import generate_pages_recursive
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(script_dir, ".."))
@@ -27,7 +27,7 @@ def main():
     os.mkdir(public_dir)
     copy_static(static_dir, public_dir)
 
-    generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages_recursive("content", "template.html", "public")
 
 if __name__ == "__main__":
     main()
