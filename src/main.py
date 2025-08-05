@@ -1,12 +1,18 @@
 import shutil
 import os
+import sys
 
 from generator import generate_pages_recursive
+
+if len(sys.argv) > 1:
+    basepath = sys.argv[1]
+else:
+    basepath = "/"
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(script_dir, ".."))
 
-public_dir = os.path.join(project_root, "public")
+public_dir = os.path.join(project_root, "docs")
 static_dir = os.path.join(project_root, "static")
 
 def copy_static(src, dest):
@@ -27,7 +33,17 @@ def main():
     os.mkdir(public_dir)
     copy_static(static_dir, public_dir)
 
-    generate_pages_recursive("content", "template.html", "public")
+    generate_pages_recursive("content", "template.html", "docs")
+
+def main():
+    # Get basepath from command line arguments
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    else:
+        basepath = "/"
+    
+    # Now pass basepath to the function
+    generate_pages_recursive("content", "template.html", "docs", basepath)
 
 if __name__ == "__main__":
     main()
